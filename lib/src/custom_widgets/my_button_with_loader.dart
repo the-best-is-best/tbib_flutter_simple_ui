@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tbib_flutter_simple_ui/src/extensions/ext_build_context.dart';
 
 /// typedef for function return success
 typedef IsSuccess = Future<void> Function({required bool isSuccess});
 
 /// elevated button with loader
 class MyButtonWithLoader extends StatefulWidget {
+  /// constructor
   const MyButtonWithLoader({
     required this.title,
     required this.onPressed,
@@ -67,7 +69,8 @@ class _MyButtonWithLoaderState extends State<MyButtonWithLoader> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      width: state != ButtonSpinnerState.Idle ? 60 : widget.width,
+      width:
+          state != ButtonSpinnerState.Idle ? 60 : widget.width ?? context.width,
       height: state != ButtonSpinnerState.Idle ? 50 : 50,
       duration: const Duration(milliseconds: 500),
       child: state == ButtonSpinnerState.Idle
