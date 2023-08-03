@@ -12,6 +12,7 @@ class TBIBLoginScreen extends StatefulWidget {
     this.logo = const FlutterLogo(
       size: 50,
     ),
+    this.iconColorForm,
     this.title,
     this.subTitle,
     this.usernameOrEmailTitleFormField,
@@ -76,6 +77,9 @@ class TBIBLoginScreen extends StatefulWidget {
 
   /// [spaceBetweenFormAndLoginButton] add your space Between Form And Login Button
   final double? spaceBetweenFormAndLoginButton;
+
+  /// [iconColorForm] add your icon color suffixIcon
+  final Color? iconColorForm;
 
   /// [onPressed] add your onPressed and get some functions
   final void Function({
@@ -143,7 +147,8 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
                 //   controller: _controllerUsername,
                 keyboardType: TextInputType.name,
                 label: widget.usernameOrEmailTitleFormField ?? 'Username',
-                prefixIcon: const Icon(Icons.person_outline),
+                prefixIcon:
+                    Icon(Icons.person_outline, color: widget.iconColorForm),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   ...?widget.usernameOrEmailValidators?.map((e) => e)
@@ -182,8 +187,10 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
                 keyboardType: TextInputType.visiblePassword,
                 formFieldStyle: widget.styleFormField,
                 label: widget.passwordTitleFormField ?? 'Password',
-                prefixIcon: const Icon(Icons.password_outlined),
+                prefixIcon:
+                    Icon(Icons.password_outlined, color: widget.iconColorForm),
                 suffixIcon: IconButton(
+                  color: widget.iconColorForm,
                   onPressed: () {
                     setState(() {
                       _obscurePassword = !_obscurePassword;

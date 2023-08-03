@@ -105,11 +105,14 @@ class _TBIBProfileWidgetState extends State<TBIBProfileWidget> {
                 ),
               ),
               onTap: () {
-                // setState(() {
-                //   isEdit = !isEdit;
-                //   widget.onEdit?.call(isEdit: isEdit);
-                // });
-                onTapSelectImage(context);
+                if (!isEdit) {
+                  setState(() {
+                    isEdit = true;
+                    widget.onEdit?.call(isEdit: true);
+                  });
+                } else {
+                  onTapSelectImage(context);
+                }
               },
             ),
           ),
