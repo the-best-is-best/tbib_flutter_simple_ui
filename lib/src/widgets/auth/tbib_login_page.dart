@@ -23,10 +23,12 @@ class TBIBLoginScreen extends StatefulWidget {
     this.usernameOrEmailValidators,
     this.passwordValidator,
     this.styleFormField,
-    this.onSaved,
+    //this.onSaved,
     this.titleButtonLogin = 'Login',
     this.textFormFieldDecoration,
     this.spaceBetweenFormAndLoginButton,
+    this.userNameOrEmailName,
+    this.passwordName,
   });
 
   /// default color from Theme.of(context).colorScheme.primaryContainer
@@ -67,7 +69,7 @@ class TBIBLoginScreen extends StatefulWidget {
 
   /// [onSaved] add your onSaved
 
-  final void Function(String?)? onSaved;
+  // final void Function(String?)? onSaved;
 
   /// [titleButtonLogin] add your titleButtonLogin default is Login
   final String titleButtonLogin;
@@ -81,12 +83,19 @@ class TBIBLoginScreen extends StatefulWidget {
   /// [iconColorForm] add your icon color suffixIcon
   final Color? iconColorForm;
 
+  /// [usernameOrEmailName] key in api
+  final String? userNameOrEmailName;
+
+  /// [passwordName] key in api
+  final String? passwordName;
+
   /// [onPressed] add your onPressed and get some functions
   final void Function({
-    ButtonSpinnerState btnState,
-    void Function({required bool isSuccess}) isSuccess,
-    Function startLoading,
-    Function stopLoading,
+    required ButtonSpinnerState btnState,
+    required void Function({required bool isSuccess}) isSuccess,
+    required Function startLoading,
+    required Function stopLoading,
+    required Map<String, dynamic> data,
   }) onPressed;
 
   @override
@@ -142,7 +151,7 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
               ),
               const SizedBox(height: 60),
               MyFormField(
-                keyWidget: 'username',
+                keyWidget: widget.userNameOrEmailName ?? 'username',
                 formFieldStyle: widget.styleFormFieldTitle,
                 //   controller: _controllerUsername,
                 keyboardType: TextInputType.name,
@@ -151,10 +160,10 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
                     Icon(Icons.person_outline, color: widget.iconColorForm),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
-                  ...?widget.usernameOrEmailValidators?.map((e) => e)
+                  ...?widget.usernameOrEmailValidators?.map((e) => e),
                 ]),
                 nextFocusNode: _focusNodePassword,
-                onSaved: widget.onSaved,
+                // onSaved: widget.onSaved,
                 decoration: widget.textFormFieldDecoration ??
                     InputDecoration(
                       labelStyle: labelStyle,
@@ -180,7 +189,7 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
               ),
               const SizedBox(height: 10),
               MyFormField(
-                keyWidget: 'password',
+                keyWidget: widget.passwordName ?? 'password',
                 //  controller: _controllerPassword,
                 focusNode: _focusNodePassword,
                 obscureText: _obscurePassword,
@@ -204,10 +213,10 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
                 validator: FormBuilderValidators.compose(
                   [
                     FormBuilderValidators.required(),
-                    ...?widget.passwordValidator?.map((e) => e)
+                    ...?widget.passwordValidator?.map((e) => e),
                   ],
                 ),
-                onSaved: widget.onSaved,
+                // onSaved: widget.onSaved,
                 decoration: widget.textFormFieldDecoration ??
                     InputDecoration(
                       labelStyle: labelStyle,
@@ -257,6 +266,7 @@ class _TBIBLoginScreenState extends State<TBIBLoginScreen> {
                           isSuccess: isSuccess!,
                           startLoading: startLoading!,
                           stopLoading: stopLoading!,
+                          data: _formKey.currentState!.value,
                         );
                       }
                     },
