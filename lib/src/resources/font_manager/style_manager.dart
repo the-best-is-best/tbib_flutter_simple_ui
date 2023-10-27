@@ -13,19 +13,19 @@ TextStyle _getTextStyle({
   );
 }
 
-// light
-
+/// light style text
 TextStyle getLightStyle({
   double? fontSize,
   Color? color,
 }) {
   return _getTextStyle(
-      fontSize: fontSize ?? FontSize.s20,
-      fontWeight: FontWeightManager.light,
-      color: color);
+    fontSize: fontSize ?? FontSize.s20,
+    fontWeight: FontWeightManager.light,
+    color: color,
+  );
 }
 
-// regular
+/// regular style text
 
 TextStyle getRegularStyle({
   double? fontSize,
@@ -38,7 +38,7 @@ TextStyle getRegularStyle({
   );
 }
 
-// medium
+/// medium style text
 
 TextStyle getMediumStyle({
   //double fontSize = FontSize.s16,
@@ -52,7 +52,7 @@ TextStyle getMediumStyle({
   );
 }
 
-// semi bold
+/// semi bold style text
 
 TextStyle getSemiBoldStyle({
   // double fontSize = FontSize.s18,
@@ -66,7 +66,7 @@ TextStyle getSemiBoldStyle({
   );
 }
 
-// bold
+/// bold style texts
 
 TextStyle getBoldStyle({
   // double fontSize = FontSize.s20,

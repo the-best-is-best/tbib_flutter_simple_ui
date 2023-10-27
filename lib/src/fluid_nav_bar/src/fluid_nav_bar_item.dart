@@ -91,9 +91,10 @@ class _FluidNavBarItemState extends State<FluidNavBarItem>
 
     const waveRatio = 0.28;
     _animationController = AnimationController(
-      duration: Duration(milliseconds: (1600 * widget.animationFactor).toInt()),
+      duration:
+          Duration(milliseconds: (1600 / 2 * widget.animationFactor).toInt()),
       reverseDuration:
-          Duration(milliseconds: (1000 * widget.animationFactor).toInt()),
+          Duration(milliseconds: (1000 / 2 * widget.animationFactor).toInt()),
       vsync: this,
     )..addListener(() => setState(() {}));
 
@@ -107,7 +108,7 @@ class _FluidNavBarItemState extends State<FluidNavBarItem>
 
     final animation = CurvedAnimation(
       parent: _animationController,
-      curve: LinearPointCurve(waveRatio, 0),
+      curve: const LinearPointCurve(waveRatio, 0),
     );
 
     _yOffsetAnimation =

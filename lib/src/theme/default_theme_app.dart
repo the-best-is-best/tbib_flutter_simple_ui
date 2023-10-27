@@ -102,9 +102,9 @@ class DefaultThemeApp {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all(
-            buttonsColor ?? primaryColor,
-          ),
+          // backgroundColor: MaterialStateProperty.all(
+          //   buttonsColor ?? primaryColor,
+          // ),
         ),
       ),
       elevatedButtonTheme: myElevatedButtonTheme(buttonsColor ?? primaryColor),
@@ -219,7 +219,7 @@ class DefaultThemeApp {
 AppBarTheme myAppBarTheme(Color primaryColor) {
   return AppBarTheme(
     backgroundColor: primaryColor,
-    iconTheme: const IconThemeData(color: Colors.black),
+    iconTheme: const IconThemeData(color: Colors.white),
     titleTextStyle: getBoldStyle(
       color: Colors.white,
     ),

@@ -1,10 +1,10 @@
 import 'package:flutter/animation.dart';
 
 class LinearPointCurve extends Curve {
+
+  const LinearPointCurve(this.pIn, this.pOut);
   final double pIn;
   final double pOut;
-
-  LinearPointCurve(this.pIn, this.pOut);
 
   @override
   double transform(double x) {

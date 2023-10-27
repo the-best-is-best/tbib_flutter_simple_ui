@@ -230,20 +230,21 @@ class _FluidNavBarState extends State<FluidNavBar>
     _yController.value = 1.0;
     _xController.animateTo(
       _indexToPosition(index) / MediaQuery.of(context).size.width,
-      duration: const Duration(milliseconds: 620) * widget.animationFactor,
+      duration: const Duration(milliseconds: 620 ~/ 2) * widget.animationFactor,
     );
     Future.delayed(
-      const Duration(milliseconds: 500) * widget.animationFactor,
+      const Duration(milliseconds: 500 ~/ 2) * widget.animationFactor,
       () {
         _yController.animateTo(
           1,
-          duration: const Duration(milliseconds: 1200) * widget.animationFactor,
+          duration:
+              const Duration(milliseconds: 1200 ~/ 2) * widget.animationFactor,
         );
       },
     );
     _yController.animateTo(
       0,
-      duration: const Duration(milliseconds: 300) * widget.animationFactor,
+      duration: const Duration(milliseconds: 300 ~/ 2) * widget.animationFactor,
     );
 
     if (widget.onChange != null) {
@@ -278,7 +279,7 @@ class _BackgroundCurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Paint two cubic bezier curves using various linear interpolations based off of the `_normalizedY` value
-    final norm = LinearPointCurve(0.5, 2).transform(_normalizedY) / 2;
+    final norm = const LinearPointCurve(0.5, 2).transform(_normalizedY) / 2;
 
     final radius =
         Tween<double>(begin: _radiusTop, end: _radiusBottom).transform(norm);
@@ -286,16 +287,16 @@ class _BackgroundCurvePainter extends CustomPainter {
     final anchorControlOffset = Tween<double>(
       begin: radius * _horizontalControlTop,
       end: radius * _horizontalControlBottom,
-    ).transform(LinearPointCurve(0.5, 0.75).transform(norm));
+    ).transform(const LinearPointCurve(0.5, 0.75).transform(norm));
     // Point that slides up and down depending on distance for the target x position
     final dipControlOffset = Tween<double>(
       begin: radius * _pointControlTop,
       end: radius * _pointControlBottom,
-    ).transform(LinearPointCurve(0.5, 0.8).transform(norm));
+    ).transform(const LinearPointCurve(0.5, 0.8).transform(norm));
     final y = Tween<double>(begin: _topY, end: _bottomY)
-        .transform(LinearPointCurve(0.2, 0.7).transform(norm));
+        .transform(const LinearPointCurve(0.2, 0.7).transform(norm));
     final dist = Tween<double>(begin: _topDistance, end: _bottomDistance)
-        .transform(LinearPointCurve(0.5, 0).transform(norm));
+        .transform(const LinearPointCurve(0.5, 0).transform(norm));
     final x0 = _x - dist / 2;
     final x1 = _x + dist / 2;
 

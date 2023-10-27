@@ -18,7 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
             {ButtonSpinnerState? btnState,
             Function({required bool isSuccess})? isSuccess,
             Function? startLoading,
-            Function? stopLoading}) {
+            Function? stopLoading,
+            required Map data}) {
           if (btnState == ButtonSpinnerState.Idle) {
             startLoading!();
             Future.delayed(const Duration(seconds: 2), () {
