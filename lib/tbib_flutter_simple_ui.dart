@@ -13,6 +13,8 @@ export 'src/extensions/app_extensions.dart';
 
 /// fluid nav bar
 export 'src/fluid_nav_bar/fluid_bottom_nav_bar.dart';
+// functions
+export 'src/functions/export_func.dart';
 
 /// fluid nav bar item
 export 'src/resources/font_manager/font_manager.dart';

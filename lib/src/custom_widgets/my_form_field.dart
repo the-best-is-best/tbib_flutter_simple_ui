@@ -19,6 +19,7 @@ class MyFormField extends StatefulWidget {
   // final void Function(String?)? onSaved;
 
   final TextStyle? labelStyle;
+
   final String? hintText;
 
   final TextStyle? hintStyle;
@@ -48,6 +49,10 @@ class MyFormField extends StatefulWidget {
   /// [decoration] add your decoration
   final InputDecoration? decoration;
 
+  final String? errorText;
+
+  final void Function(String?)? onSaved;
+
   /// constructor
   const MyFormField({
     required this.keyWidget,
@@ -68,6 +73,8 @@ class MyFormField extends StatefulWidget {
     this.suffixIcon,
     this.obscureText = false,
     this.decoration,
+    this.errorText,
+    this.onSaved,
   });
 
   @override
@@ -85,23 +92,27 @@ class _MyFormFieldState extends State<MyFormField> {
       //   controller: _controllerUsername,
       keyboardType: widget.keyboardType,
       obscureText: widget.obscureText,
+      onSaved: widget.onSaved,
       decoration: widget.decoration != null
           ? widget.decoration!.copyWith(
               labelText: widget.label,
+              errorText: widget.errorText,
               labelStyle: widget.labelStyle ??
                   getBoldStyle(
-                    fontSize: FontSize.s16,
-                    color: const Color(0xfffcdcdcd),
+                    fontSize: FontSize.s20,
+                    color: const Color(0xffcdcdcd),
                   ),
               prefixIcon: widget.prefixIcon,
               suffixIcon: widget.suffixIcon,
             )
           : InputDecoration(
+              errorText: widget.errorText,
               labelText: widget.label,
               hintText: widget.hintText,
+              errorMaxLines: 6,
               labelStyle: widget.labelStyle ??
                   getBoldStyle(
-                    fontSize: FontSize.s24,
+                    fontSize: FontSize.s20,
                     color: const Color(0xff414141),
                   ),
               hintStyle: widget.hintStyle ??
@@ -118,6 +129,10 @@ class _MyFormFieldState extends State<MyFormField> {
               widget.focusNode?.unfocus();
               FocusScope.of(context).requestFocus(widget.nextFocusNode);
             },
+      onSubmitted: (value) {
+        widget.nextFocusNode?.unfocus();
+        FocusScope.of(context).requestFocus(widget.nextFocusNode);
+      },
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: widget.validator,
       initialValue: widget.initialValue,
