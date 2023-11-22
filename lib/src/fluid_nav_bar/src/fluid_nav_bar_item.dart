@@ -15,26 +15,6 @@ typedef FluidNavBarButtonTappedCallback = void Function();
 ///  * [FluidNavBarIcon]
 
 class FluidNavBarItem extends StatefulWidget {
-  const FluidNavBarItem(
-    this.svgPath,
-    this.icon,
-    this.selected,
-    this.onTap,
-    this.selectedForegroundColor,
-    this.unselectedForegroundColor,
-    this.backgroundColor,
-    this.scaleFactor,
-    this.animationFactor, {
-    super.key,
-  })  : assert(scaleFactor >= 1.0),
-        assert(
-          svgPath == null || icon == null,
-          'Cannot provide both an iconPath and an icon.',
-        ),
-        assert(
-          !(svgPath == null && icon == null),
-          'An iconPath or an icon must be provided.',
-        );
   static const nominalExtent = Size(64, 64);
 
   /// The path of the SVG asset
@@ -64,6 +44,27 @@ class FluidNavBarItem extends StatefulWidget {
   /// The delay factor of the animations ( < 1 is faster, > 1 is slower)
   final double animationFactor;
 
+  const FluidNavBarItem(
+    this.svgPath,
+    this.icon,
+    this.selected,
+    this.onTap,
+    this.selectedForegroundColor,
+    this.unselectedForegroundColor,
+    this.backgroundColor,
+    this.scaleFactor,
+    this.animationFactor, {
+    super.key,
+  })  : assert(scaleFactor >= 1.0),
+        assert(
+          svgPath == null || icon == null,
+          'Cannot provide both an iconPath and an icon.',
+        ),
+        assert(
+          !(svgPath == null && icon == null),
+          'An iconPath or an icon must be provided.',
+        );
+
   @override
   State createState() {
     return _FluidNavBarItemState(selected);
@@ -72,94 +73,18 @@ class FluidNavBarItem extends StatefulWidget {
 
 class _FluidNavBarItemState extends State<FluidNavBarItem>
     with SingleTickerProviderStateMixin {
-  _FluidNavBarItemState(this._selected);
   static const double _activeOffset = 16;
   static const double _defaultOffset = 0;
   static const double _iconSize = 25;
-
   bool _selected;
 
   late AnimationController _animationController;
+
   late Animation<double> _activeColorClipAnimation;
   late Animation<double> _yOffsetAnimation;
   late Animation<double> _activatingAnimation;
   late Animation<double> _inactivatingAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    const waveRatio = 0.28;
-    _animationController = AnimationController(
-      duration:
-          Duration(milliseconds: (1600 / 2 * widget.animationFactor).toInt()),
-      reverseDuration:
-          Duration(milliseconds: (1000 / 2 * widget.animationFactor).toInt()),
-      vsync: this,
-    )..addListener(() => setState(() {}));
-
-    _activeColorClipAnimation = Tween<double>(begin: 0, end: _iconSize).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.25, 0.38, curve: Curves.easeOut),
-        reverseCurve: const Interval(0.7, 1, curve: Curves.easeInCirc),
-      ),
-    );
-
-    final animation = CurvedAnimation(
-      parent: _animationController,
-      curve: const LinearPointCurve(waveRatio, 0),
-    );
-
-    _yOffsetAnimation =
-        Tween<double>(begin: _defaultOffset, end: _activeOffset).animate(
-      CurvedAnimation(
-        parent: animation,
-        curve: const ElasticOutCurve(0.38),
-        reverseCurve: Curves.easeInCirc,
-      ),
-    );
-
-    final activatingHalfTween =
-        Tween<double>(begin: 1, end: widget.scaleFactor);
-    _activatingAnimation = TweenSequence([
-      TweenSequenceItem(tween: activatingHalfTween, weight: 50),
-      TweenSequenceItem(
-        tween: ReverseTween<double>(activatingHalfTween),
-        weight: 50,
-      ),
-    ]).animate(
-      CurvedAnimation(
-        parent: animation,
-        curve: const Interval(0, 0.3),
-      ),
-    );
-    _inactivatingAnimation = ConstantTween<double>(1).animate(
-      CurvedAnimation(
-        parent: animation,
-        curve: const Interval(0.3, 1),
-      ),
-    );
-
-    _startAnimation();
-  }
-
-  @override
-  void didUpdateWidget(FluidNavBarItem oldWidget) {
-    if (oldWidget.selected != _selected) {
-      setState(() {
-        _selected = widget.selected;
-      });
-      _startAnimation();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
+  _FluidNavBarItemState(this._selected);
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +156,82 @@ class _FluidNavBarItemState extends State<FluidNavBarItem>
     );
   }
 
+  @override
+  void didUpdateWidget(FluidNavBarItem oldWidget) {
+    if (oldWidget.selected != _selected) {
+      setState(() {
+        _selected = widget.selected;
+      });
+      _startAnimation();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    const waveRatio = 0.28;
+    _animationController = AnimationController(
+      duration:
+          Duration(milliseconds: (1600 / 2 * widget.animationFactor).toInt()),
+      reverseDuration:
+          Duration(milliseconds: (1000 / 2 * widget.animationFactor).toInt()),
+      vsync: this,
+    )..addListener(() => setState(() {}));
+
+    _activeColorClipAnimation = Tween<double>(begin: 0, end: _iconSize).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.25, 0.38, curve: Curves.easeOut),
+        reverseCurve: const Interval(0.7, 1, curve: Curves.easeInCirc),
+      ),
+    );
+
+    final animation = CurvedAnimation(
+      parent: _animationController,
+      curve: const LinearPointCurve(waveRatio, 0),
+    );
+
+    _yOffsetAnimation =
+        Tween<double>(begin: _defaultOffset, end: _activeOffset).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: const ElasticOutCurve(0.38),
+        reverseCurve: Curves.easeInCirc,
+      ),
+    );
+
+    final activatingHalfTween =
+        Tween<double>(begin: 1, end: widget.scaleFactor);
+    _activatingAnimation = TweenSequence([
+      TweenSequenceItem(tween: activatingHalfTween, weight: 50),
+      TweenSequenceItem(
+        tween: ReverseTween<double>(activatingHalfTween),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: const Interval(0, 0.3),
+      ),
+    );
+    _inactivatingAnimation = ConstantTween<double>(1).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: const Interval(0.3, 1),
+      ),
+    );
+
+    _startAnimation();
+  }
+
   void _startAnimation() {
     if (_selected) {
       _animationController.forward();
@@ -244,8 +245,8 @@ class _FluidNavBarItemState extends State<FluidNavBarItem>
 }
 
 class _SvgPictureClipper extends CustomClipper<Rect> {
-  _SvgPictureClipper(this.height);
   final double height;
+  _SvgPictureClipper(this.height);
 
   @override
   Rect getClip(Size size) {

@@ -7,12 +7,10 @@ String? passwordValidation(String password, int maxLength) {
   // }
   if (password.length < maxLength) {
     errorText += 'Password must be at least $maxLength characters long \n';
-  }
 
-  // Check if the password contains at least one letter and one number.
-  if (!password.contains(RegExp('[a-zA-Z0-9]'))) {
-    errorText += 'Password must contain at least 1 letter \n';
-  } else if (!password.contains(RegExp('[0-9]'))) {
+    // Check if the password contains at least one letter and one number.
+  }
+  if (!password.contains(RegExp('[0-9]'))) {
     errorText += 'Password must contain at least 1 number \n';
   }
 
