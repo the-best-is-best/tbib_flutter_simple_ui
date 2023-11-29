@@ -13,6 +13,7 @@ class TBIBProfileWidget extends StatefulWidget {
     this.onEdit,
     this.hideEditButton = false,
     super.key,
+    this.isEdit = false,
   });
 
   /// image path
@@ -20,6 +21,7 @@ class TBIBProfileWidget extends StatefulWidget {
 
   /// hide edit button
   final bool hideEditButton;
+  final bool isEdit;
 
   /// get value is edit
   final void Function({required bool isEdit})? onEdit;
@@ -35,6 +37,7 @@ class _TBIBProfileWidgetState extends State<TBIBProfileWidget> {
 
   @override
   void initState() {
+    isEdit = widget.isEdit;
     super.initState();
     if (widget.imagePath?.contains('http') ?? false) {
       isImageFromNetwork = true;
@@ -83,39 +86,40 @@ class _TBIBProfileWidgetState extends State<TBIBProfileWidget> {
                           : Container(),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: InkWell(
-              child: ClipOval(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  color: Theme.of(context).colorScheme.primary,
-                  child: ClipOval(
-                    child: Container(
-                      padding: const EdgeInsets.all(3),
-                      color: Colors.white,
-                      child: Icon(
-                        isEdit ? Icons.image : Icons.edit,
-                        color: Theme.of(context).colorScheme.primary,
-                        size: 20,
+          if (!widget.hideEditButton || widget.hideEditButton && isEdit)
+            Positioned(
+              bottom: 0,
+              right: 4,
+              child: InkWell(
+                child: ClipOval(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Theme.of(context).colorScheme.primary,
+                    child: ClipOval(
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        color: Colors.white,
+                        child: Icon(
+                          isEdit ? Icons.image : Icons.edit,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
                 ),
+                onTap: () {
+                  if (!isEdit) {
+                    setState(() {
+                      isEdit = true;
+                      widget.onEdit?.call(isEdit: true);
+                    });
+                  } else {
+                    onTapSelectImage(context);
+                  }
+                },
               ),
-              onTap: () {
-                if (!isEdit) {
-                  setState(() {
-                    isEdit = true;
-                    widget.onEdit?.call(isEdit: true);
-                  });
-                } else {
-                  onTapSelectImage(context);
-                }
-              },
             ),
-          ),
         ],
       ),
     );
