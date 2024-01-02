@@ -15,8 +15,8 @@ dependencies:
   flutter_screenutil: ^5.8.4
   flutter_svg: ^2.0.7
   form_builder_validators: ^9.0.0
-  intl: ^0.18.1
-  tbib_file_uploader: ^1.10.8
+  intl: ^0.19.0
+  tbib_file_uploader: ^1.11.2
 
 # dependency_overrides:
 #   intl: ^0.18.1
